@@ -7,7 +7,7 @@ public class Person {
 	private String name;
 	private String pn;
 	private String email;
-	private String pair;
+	private Person pair;
 	
 	/**
 	 * Creates a new person
@@ -17,7 +17,6 @@ public class Person {
 		name = info[0];
 		pn = info[1];
 		email = info[2];
-		pair = "";
 	}
 
 	/**
@@ -40,9 +39,34 @@ public class Person {
 	public String getEmail() {
 		return email;
 	}
-
+	
+	/**
+	 * Gets the secret santa pair for this person
+	 * @return The secret santa pair for this person
+	 */
+	public Person getPair() {
+		return pair;
+	}
+	
+	/**
+	 * Sets the pair for a person
+	 * @param p New pair for this person
+	 */
+	public void setPair(Person p) {
+		pair = p;
+	}
+	
+	/**
+	 * Converts a person to a String
+	 */
 	public String toString() {
-		return name + ", " + pn + ", " + email + ". Pair: " + pair ;
+		return name + ", " + pn + ", " + email + ". Pair: " + pair.getName() + "\n" ;
+	}
+	
+	public boolean equals(Object o) {
+		Person p = (Person)o;
+		
+		return this.getName().equals(p.getName()) && this.getEmail().equals(p.getEmail()) && this.getPn().equals(p.getPn());
 	}
 
 	

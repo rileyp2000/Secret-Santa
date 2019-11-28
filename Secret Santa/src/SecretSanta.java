@@ -1,35 +1,56 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 public class SecretSanta {
 	private ArrayList<Person> participants; 
+	private static Random rand;
 	
-	public SecretSanta() {
-		participants = initPeople();
-		
+	public SecretSanta(Scanner people) {
+		participants = initPeople(people);
+		rand = new Random();
 		match();
 	}
 	
-	private ArrayList<Person> initPeople() {
+	private ArrayList<Person> initPeople(Scanner p) {
 		ArrayList<Person> people = new ArrayList<Person>();
-		Scanner in = new Scanner(System.in);
-		boolean end = false;
-		while(end == false) {
-			System.out.println("Enter the person's name, phone number, and email address in that order in a list: ");
-			String[] info = in.nextLine().split(",");
-			info[1] = process(info[1].replaceAll("[\\s\\-()]", ""));
-			System.out.println("Is this the last person? (Y/N): ");
-			Person p = new Person(info);
-			people.add(p);
-			if(in.nextLine().toLowerCase().equals("y"))
-				end = true;	
+		
+		while(p.hasNext()) {
+			String[] info = p.nextLine().split(",");
+			info[2] = process(info[2].replaceAll("[\\s\\-()]", ""));
+			people.add(new Person(info));
 		}
-		in.close();
+		p.close();
 		return people;
 		
 	}
 	
+	private static int random(ArrayList<Person> p) {
+		return rand.nextInt(p.size());
+	}
+	
 	private void match() {
-		
+		ArrayList<Person> pCopy = deepCopy(participants);
+		for(Person p: participants) {
+			int pair = random(pCopy);
+			if(p.equals(pCopy.get(pair))) {
+				int p2 = random(pCopy);
+				while(pair == p2)
+					p2 = random(pCopy);
+				pair = p2;
+			}
+			
+			p.setPair(pCopy.remove(pair));
+				
+		}
+	}
+	
+	private ArrayList<Person> deepCopy(ArrayList<Person> peeps){
+		ArrayList<Person> pCopy = new ArrayList<Person>();
+		for(Person p : peeps)
+			pCopy.add((Person) p);
+		return pCopy;
 	}
 	
 	private String process(String s) {
@@ -37,7 +58,16 @@ public class SecretSanta {
 	}
 
 	public static void main(String[] args) {
-		SecretSanta s = new SecretSanta();
+		Scanner people = null;
+		try {
+			people = new Scanner(new FileInputStream(args[0]));
+		} catch (FileNotFoundException e) {
+			System.exit(1);
+		}
+		
+		SecretSanta s = new SecretSanta(people);
+		System.out.println(s.participants);
+		people.close();
 	}
 
 }
