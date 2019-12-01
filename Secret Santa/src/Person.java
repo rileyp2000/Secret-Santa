@@ -15,8 +15,8 @@ public class Person {
 	 */
 	public Person(String[] info) {
 		name = info[0];
-		pn = info[1];
-		email = info[2];
+		email = info[1];
+		pn = info[2];
 	}
 
 	/**
