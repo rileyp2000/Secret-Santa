@@ -5,7 +5,6 @@
  */
 public class Person {	
 	private String name;
-	private String pn;
 	private String email;
 	private Person pair;
 	
@@ -16,7 +15,6 @@ public class Person {
 	public Person(String[] info) {
 		name = info[0];
 		email = info[1];
-		pn = info[2];
 	}
 
 	/**
@@ -24,13 +22,6 @@ public class Person {
 	 */
 	public String getName() {
 		return name;
-	}
-
-	/**
-	 * @return the pn
-	 */
-	public String getPn() {
-		return pn;
 	}
 
 	/**
@@ -60,13 +51,13 @@ public class Person {
 	 * Converts a person to a String
 	 */
 	public String toString() {
-		return name + ", " + pn + ", " + email + ". Pair: " + pair.getName() + "\n" ;
+		return name + ", " + email + ". Pair: " + pair.getName() + "\n" ;
 	}
 	
 	public boolean equals(Object o) {
 		Person p = (Person)o;
 		
-		return this.getName().equals(p.getName()) && this.getEmail().equals(p.getEmail()) && this.getPn().equals(p.getPn());
+		return this.getName().equals(p.getName()) && this.getEmail().equals(p.getEmail());
 	}
 
 	
